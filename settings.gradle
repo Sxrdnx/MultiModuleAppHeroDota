@@ -14,3 +14,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "MultiModuleAppHero"
 include ':app'
+include ':core'
+include ':constans'
+include ':hero'
+include ':hero:hero-datasource'
+include  ':hero:hero-domain'
+include  ':hero:hero-interactors'
+include  ':hero:hero-datasource-test'
