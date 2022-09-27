@@ -6,6 +6,13 @@
       <module name="multimodule_app_curse.buildSrc.main" target="11" />
       <module name="multimodule_app_curse.buildSrc.test" target="11" />
       <module name="MultiModuleAppHero.app" target="11" />
+      <module name="MultiModuleAppHero.app.components" target="11" />
+      <module name="MultiModuleAppHero.buildSrc" target="11" />
+      <module name="MultiModuleAppHero.buildSrc.main" target="11" />
+      <module name="MultiModuleAppHero.buildSrc.test" target="11" />
+      <module name="MultiModuleAppHero.components" target="11" />
+      <module name="MultiModuleAppHero.hero.ui-heroDetail" target="11" />
+      <module name="MultiModuleAppHero.hero.ui-heroList" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
