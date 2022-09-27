@@ -1,17 +1,18 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
+// build.gradle for android libraries that contain UI
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdk Android.compileSdk
+    compileSdkVersion Android.compileSdk
+    buildToolsVersion Android.buildTools
 
     defaultConfig {
-        minSdk Android.minSdk
-        targetSdk Android.targetSdk
+        minSdkVersion Android.minSdk
+        targetSdkVersion Android.targetSdk
         versionCode Android.versionCode
         versionName Android.versionName
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -21,40 +22,40 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-    buildFeatures{
-        compose = true
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
+    buildFeatures {
+        compose true
+    }
     composeOptions {
-        kotlinCompilerExtensionVersion = Compose.composeVersion
+        kotlinCompilerExtensionVersion Compose.composeVersion
+        kotlinCompilerVersion Kotlin.version
+    }
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
     }
 }
 
-dependencies {
-    //AndroidX
+dependencies{
+
     implementation AndroidX.coreKtx
     implementation AndroidX.appCompat
     implementation AndroidX.lifecycleVmKtx
-    //Compose
+
     implementation Compose.activity
     implementation Compose.ui
     implementation Compose.material
     implementation Compose.tooling
     implementation Compose.navigation
-    implementation Compose.hiltNavigation
-    //material
-    implementation Google.material
-    //coil
-    implementation Coil.coil
 
+    implementation Google.material
+
+    implementation Hilt.android
+    kapt Hilt.compiler
 }
