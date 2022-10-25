@@ -1,4 +1,4 @@
-// build.gradle for android libraries that contain UI
+// build.gradle.kts for android libraries that contain UI
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
