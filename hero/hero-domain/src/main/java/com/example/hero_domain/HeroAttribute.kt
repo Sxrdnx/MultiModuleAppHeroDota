@@ -54,7 +54,7 @@ fun getHeroAttrFromAbbreviation(abbreviation: String): HeroAttribute{
 }
 
 fun Hero.minAttackDmg(): Int {
-    return when(primaryAttribute){
+     return when(primaryAttribute){
         is HeroAttribute.Strength -> {
             baseAttackMin + baseStr
         }
