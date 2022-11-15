@@ -17,9 +17,7 @@ interface HeroService {
                 install(ContentNegotiation){
                     json(Json {
                         ignoreUnknownKeys = true // if the server return extra fields, ignore them
-                        useAlternativeNames = false
                     })
-
                 }
             })
         }

@@ -2,9 +2,10 @@ package com.example.core
 
 class Logger(private val tag :String,private val isDebug:Boolean = true) {
     fun log(msg: String){
-        if (isDebug){
-            printLogD(tag,msg)
+        if (!isDebug){
             //production logging-Crashlytics or w/
+        }else{
+            printLogD(tag,msg)
         }
     }
 
