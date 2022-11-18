@@ -4,6 +4,7 @@ apply{
 
 plugins{
     kotlin(KotlinPlugins.serialization2) version Kotlin.version
+    id(SqlDelight.plugin)
 }
 
 dependencies {
@@ -12,4 +13,12 @@ dependencies {
     "implementation"(Ktor.clientSerialization)
     "implementation"(Ktor.android)
     "implementation" (Ktor.contentNegotiation)
+
+    "implementation"(SqlDelight.runtime)
+}
+sqldelight{
+    database("HeroDatabase"){
+        packageName = "com.example.hero_datasource.cache"
+        sourceFolders = listOf("sqldelight")
+    }
 }
