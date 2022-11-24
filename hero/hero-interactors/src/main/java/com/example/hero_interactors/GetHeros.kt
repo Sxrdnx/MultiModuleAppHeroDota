@@ -4,16 +4,17 @@ import com.example.core.DataState
 import com.example.core.Logger
 import com.example.core.ProgressBarState
 import com.example.core.UIComponent
+import com.example.hero_datasource.cache.HeroCache
 import com.example.hero_datasource.netwok.HeroService
 import com.example.hero_domain.Hero
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.lang.Exception
+
 
 class GetHeros(
     private val service: HeroService,
-    private val logger:Logger
-    //TODO(add caching)
+    private val logger:Logger,
+    private val cache: HeroCache
 ) {
     fun execute():Flow<DataState<List<Hero>>> =flow{
         try {
@@ -31,8 +32,14 @@ class GetHeros(
                 emptyList<Hero>()
             }
 
-            //TODO(caching)
-            emit(DataState.Data(heros))
+            //cache the network data
+            cache.insert(heros)
+            //emit data from cache
+            val cacheHeros = cache.selectAll()
+
+            emit(DataState.Data(cacheHeros))
+
+
         }catch (e:Exception){
             e.printStackTrace()
             logger.log(e.message?:"Unknown")
