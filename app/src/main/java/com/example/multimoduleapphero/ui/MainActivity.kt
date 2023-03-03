@@ -1,4 +1,4 @@
-package com.example.multimoduleapphero
+package com.example.multimoduleapphero.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
