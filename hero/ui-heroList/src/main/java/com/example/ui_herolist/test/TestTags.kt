@@ -1,4 +1,4 @@
-package com.example.ui_herolist.ui.test
+package com.example.ui_herolist.test
 
 const val TAG_HERO_SEARCH_BAR = "TAG_HERO_SEARCH_BAR"
 const val TAG_HERO_NAME = "TAG_HERO_NAME"
