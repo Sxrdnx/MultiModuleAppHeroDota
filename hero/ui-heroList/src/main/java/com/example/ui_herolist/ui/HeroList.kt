@@ -16,7 +16,8 @@ import com.example.ui_herolist.ui.HeroListState
 @Composable
 fun HeroList(
     state: HeroListState,
-    imageLoader: ImageLoader
+    imageLoader: ImageLoader,
+    navigateToDetailScreen:(Int)-> Unit
 ){
 
     Box(modifier = Modifier.fillMaxSize()){
@@ -24,7 +25,9 @@ fun HeroList(
             items(state.heros){hero ->
                 HeroListItem(
                     hero = hero,
-                    onSelectHero ={},
+                    onSelectHero ={ heroID ->
+                        navigateToDetailScreen(heroID)
+                    },
                     imageLoader = imageLoader
                 )
 
