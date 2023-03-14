@@ -22,6 +22,7 @@ import com.example.hero_interactors.HeroInteractors
 import com.example.multimoduleapphero.ui.navigation.Screen
 import com.example.multimoduleapphero.ui.theme.MultiModuleAppHeroTheme
 import com.example.ui_herodetail.HeroDetail
+import com.example.ui_herodetail.ui.HeroDetailViewmodel
 import com.example.ui_herolist.HeroList
 import com.example.ui_herolist.R.*
 import com.example.ui_herolist.ui.HeroListState
@@ -80,8 +81,8 @@ fun NavGraphBuilder.addHeroDetail(){
         route = Screen.HeroDetail.route + "/{heroId}",
         arguments = Screen.HeroDetail.arguments
     ){ navBackStackEntry ->
-        HeroDetail(
-            heroId = navBackStackEntry.arguments?.getInt("heroId")
-        )
+        val viewmodel: HeroDetailViewmodel = hiltViewModel()
+        //heroId = navBackStackEntry.arguments?.getInt("heroId")
+        HeroDetail(state = viewmodel.state.value)
     }
 }
