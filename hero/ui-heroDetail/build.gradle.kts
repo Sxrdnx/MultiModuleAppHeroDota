@@ -6,4 +6,6 @@ dependencies {
     "implementation"(project(Modules.heroDomain))
     "implementation"(project(Modules.core))
 
+    "implementation"(Coil.coil)
+
 }

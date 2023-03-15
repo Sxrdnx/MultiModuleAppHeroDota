@@ -3,9 +3,6 @@ package com.example.multimoduleapphero.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -13,26 +10,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
-import coil.memory.MemoryCache
-import com.example.core.DataState
-import com.example.core.Logger
-import com.example.core.ProgressBarState
-import com.example.core.UIComponent
-import com.example.hero_interactors.HeroInteractors
 import com.example.multimoduleapphero.ui.navigation.Screen
 import com.example.multimoduleapphero.ui.theme.MultiModuleAppHeroTheme
-import com.example.ui_herodetail.HeroDetail
+import com.example.ui_herodetail.ui.HeroDetail
 import com.example.ui_herodetail.ui.HeroDetailViewmodel
 import com.example.ui_herolist.HeroList
-import com.example.ui_herolist.R.*
-import com.example.ui_herolist.ui.HeroListState
 import com.example.ui_herolist.ui.HeroListViewModel
-import com.squareup.sqldelight.android.AndroidSqliteDriver
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = Screen.HeroList.route,
                     builder = {
                         addHeroList(navController,imageLoader)
-                        addHeroDetail()
+                        addHeroDetail(imageLoader)
                     }
                 )
             }
@@ -76,13 +60,16 @@ fun NavGraphBuilder.addHeroList(
 
 }
 
-fun NavGraphBuilder.addHeroDetail(){
+fun NavGraphBuilder.addHeroDetail(
+    imageLoader: ImageLoader
+){
     composable(
         route = Screen.HeroDetail.route + "/{heroId}",
         arguments = Screen.HeroDetail.arguments
     ){ navBackStackEntry ->
         val viewmodel: HeroDetailViewmodel = hiltViewModel()
         //heroId = navBackStackEntry.arguments?.getInt("heroId")
-        HeroDetail(state = viewmodel.state.value)
+        HeroDetail(state = viewmodel.state.value,
+        imageLoader = imageLoader)
     }
 }
