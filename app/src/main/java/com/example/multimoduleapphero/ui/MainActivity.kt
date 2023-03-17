@@ -14,7 +14,7 @@ import com.example.multimoduleapphero.ui.navigation.Screen
 import com.example.multimoduleapphero.ui.theme.MultiModuleAppHeroTheme
 import com.example.ui_herodetail.ui.HeroDetail
 import com.example.ui_herodetail.ui.HeroDetailViewmodel
-import com.example.ui_herolist.HeroList
+import com.example.ui_herolist.ui.HeroList
 import com.example.ui_herolist.ui.HeroListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
