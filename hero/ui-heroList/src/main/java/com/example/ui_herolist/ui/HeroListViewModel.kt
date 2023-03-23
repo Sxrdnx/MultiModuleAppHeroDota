@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.DataState
 import com.example.core.Logger
 import com.example.core.UIComponent
+import com.example.hero_domain.Hero
 import com.example.hero_interactors.GetHeros
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import okhttp3.internal.filterList
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -30,13 +32,33 @@ class HeroListViewModel
 
 
     fun onTrigerEvent(event: HeroListEvents){
-        when (event){
-            is HeroListEvents.GetHeros->{
+        when (event) {
+            is HeroListEvents.GetHeros -> {
                 getHeros()
             }
+            is HeroListEvents.FilterHeros -> {
+                filterHeros()
+            }
+            is HeroListEvents.UpdateHeroName -> {
+                updateHeroName(event.name)
 
+            }
         }
     }
+
+    private fun updateHeroName(heroName: String) {
+        state.value = state.value.copy(heroName= heroName)
+    }
+
+    private fun filterHeros() {
+        val filteredList: MutableList<Hero> = state.value.heros.filter { hero ->
+            hero.localizedName.lowercase().contains(state.value.heroName.lowercase())
+        }.toMutableList()
+
+        state.value =state.value.copy(filteredHeros = filteredList)
+        
+    }
+
     private fun getHeros(){
         getHeros.execute().onEach { dataState->
             when(dataState){
@@ -52,6 +74,7 @@ class HeroListViewModel
                 }
                 is DataState.Data->{
                     state.value =  state.value.copy(heros = dataState.data?:listOf())
+                    filterHeros()
                 }
                 is DataState.Loading->{
                     state.value = state.value.copy(progressBarState = dataState.progressBarState)
