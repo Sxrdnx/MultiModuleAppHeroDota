@@ -1,9 +1,9 @@
 package com.example.hero_interactors
 
-import com.example.core.DataState
+import com.example.core.domain.DataState
 import com.example.core.Logger
-import com.example.core.ProgressBarState
-import com.example.core.UIComponent
+import com.example.core.domain.ProgressBarState
+import com.example.core.domain.UIComponent
 import com.example.hero_datasource.cache.HeroCache
 import com.example.hero_datasource.netwok.HeroService
 import com.example.hero_domain.Hero
@@ -23,7 +23,8 @@ class GetHeros(
                 service.getHeroStats()
             }catch (e:Exception){
                 e.printStackTrace()
-                emit(DataState.Response(
+                emit(
+                    DataState.Response(
                     uiComponent = UIComponent.Dialog(
                         title = "Network Data Error",
                         description = e.message?: "Unknown Error"
@@ -43,7 +44,8 @@ class GetHeros(
         }catch (e:Exception){
             e.printStackTrace()
             logger.log(e.message?:"Unknown")
-            emit(DataState.Response(
+            emit(
+                DataState.Response(
                 uiComponent = UIComponent.Dialog(
                 title = "Error",
                 description = e.message?: "Unknown Error"

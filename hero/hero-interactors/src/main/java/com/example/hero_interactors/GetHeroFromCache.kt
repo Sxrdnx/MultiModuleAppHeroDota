@@ -1,8 +1,8 @@
 package com.example.hero_interactors
 
-import com.example.core.DataState
-import com.example.core.ProgressBarState
-import com.example.core.UIComponent
+import com.example.core.domain.DataState
+import com.example.core.domain.ProgressBarState
+import com.example.core.domain.UIComponent
 import com.example.hero_datasource.cache.HeroCache
 import com.example.hero_domain.Hero
 import kotlinx.coroutines.flow.Flow
@@ -24,7 +24,8 @@ class GetHeroFromCache(
         }catch (e:Exception){
             e.printStackTrace()
 
-            emit(DataState.Response<Hero>(
+            emit(
+                DataState.Response<Hero>(
                 uiComponent = UIComponent.Dialog(
                     title = "Error",
                     description = e.message?: "Unknown Error"

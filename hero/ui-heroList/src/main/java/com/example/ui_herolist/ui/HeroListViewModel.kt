@@ -4,15 +4,14 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.DataState
+import com.example.core.domain.DataState
 import com.example.core.Logger
-import com.example.core.UIComponent
+import com.example.core.domain.UIComponent
 import com.example.hero_domain.Hero
 import com.example.hero_interactors.GetHeros
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import okhttp3.internal.filterList
 import javax.inject.Inject
 import javax.inject.Named
 

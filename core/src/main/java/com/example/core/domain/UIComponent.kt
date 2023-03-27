@@ -1,4 +1,4 @@
-package com.example.core
+package com.example.core.domain
 
 sealed class UIComponent{
     data class Dialog(
@@ -8,5 +8,5 @@ sealed class UIComponent{
 
     data class None(
         val message: String,
-    ):UIComponent()
+    ): UIComponent()
 }
