@@ -2,6 +2,7 @@ package com.example.ui_herolist.di
 
 import androidx.navigation.Navigator
 import com.example.core.Logger
+import com.example.hero_interactors.FilterHeros
 import com.example.hero_interactors.GetHeros
 import com.example.hero_interactors.HeroInteractors
 import dagger.Module
@@ -33,5 +34,9 @@ object HeroListModule {
     ):GetHeros{
         return interactors.getHeros
     }
+
+    @Provides
+    @Singleton
+    fun provideFilterHeros(interactors: HeroInteractors):FilterHeros = interactors.filterHeros
 
 }

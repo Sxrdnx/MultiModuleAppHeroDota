@@ -8,6 +8,7 @@ import com.example.core.domain.DataState
 import com.example.core.Logger
 import com.example.core.domain.UIComponent
 import com.example.hero_domain.Hero
+import com.example.hero_interactors.FilterHeros
 import com.example.hero_interactors.GetHeros
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -19,6 +20,7 @@ import javax.inject.Named
 class HeroListViewModel
 @Inject constructor(
     private val getHeros: GetHeros,
+    private val filterHeros: FilterHeros,
     private @Named("heroListLogger") val logger:Logger
 ):ViewModel(){
 
@@ -50,11 +52,13 @@ class HeroListViewModel
     }
 
     private fun filterHeros() {
-        val filteredList: MutableList<Hero> = state.value.heros.filter { hero ->
-            hero.localizedName.lowercase().contains(state.value.heroName.lowercase())
-        }.toMutableList()
-
-        state.value =state.value.copy(filteredHeros = filteredList)
+        val filteredList = filterHeros.invoke(
+            state.value.heros,
+            state.value.heroName,
+            state.value.heroFilter,
+            state.value.primaryAttribute
+        )
+        state.value = state.value.copy( filteredHeros=filteredList )
         
     }
 
