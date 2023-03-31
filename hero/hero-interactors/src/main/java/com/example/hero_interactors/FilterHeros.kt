@@ -22,7 +22,7 @@ class FilterHeros {
 
         when(heroFilter){
             is HeroFilter.Hero->{
-                when(heroFilter.oder){
+                when(heroFilter.order){
                     is FilterOrder.Descending->{
                         filteredList.sortByDescending { it.localizedName }
                     }
@@ -35,7 +35,7 @@ class FilterHeros {
             }
 
             is HeroFilter.ProWins->{
-                when(heroFilter.oder){
+                when(heroFilter.order){
                     is FilterOrder.Descending->{
                         filteredList.sortByDescending {
                             getWinRate(it.proWins.toDouble(),it.proPick.toDouble())

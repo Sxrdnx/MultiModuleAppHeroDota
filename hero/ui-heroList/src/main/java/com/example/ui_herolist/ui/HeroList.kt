@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
 import com.example.core.domain.ProgressBarState
+import com.example.ui_herolist.components.HeroListFilter
 import com.example.ui_herolist.components.HeroListItem
 import com.example.ui_herolist.components.HeroListToolbar
 
@@ -53,6 +54,15 @@ fun HeroList(
                }
            }
        }
+
+        HeroListFilter(
+            heroFilter= state.heroFilter,
+            onUpdateHeroFilter = {heroFilter ->
+            events(HeroListEvents.UpdateHeroFilter(heroFilter))
+
+            },
+            onCloseDialog = {}
+        )
         if  (state.progressBarState is ProgressBarState.Loading){
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
