@@ -32,7 +32,6 @@ fun HeroListFilter(
             .testTag(TAG_HERO_FILTER_DIALOG),
         onDismissRequest = {
             onCloseDialog()
-
         },
         title = {
             Text(
@@ -49,9 +48,7 @@ fun HeroListFilter(
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        //EmptyRow()
-
-
+                        EmptyRow()
                         HeroFilterSelector(
                             filterOnHero = {
                                 onUpdateHeroFilter(HeroFilter.Hero())
@@ -88,6 +85,7 @@ fun HeroListFilter(
                 .align(Alignment.End)
                 .testTag(TAG_HERO_FILTER_DIALOG_DONE)
                 .clickable {
+                    onCloseDialog()
                 }
                 ,) {
                 Icon(
