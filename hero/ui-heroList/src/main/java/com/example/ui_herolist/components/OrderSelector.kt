@@ -1,6 +1,7 @@
 package com.example.ui_herolist.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import com.example.ui_herolist.test.TAG_HERO_FILTER_DESC
  * @param onUpdateHeroFilterAsc: Set the filter to Ascending.
  */
 
+@ExperimentalAnimationApi
 @Composable
 fun OrderSelector(
     descString: String,
@@ -69,6 +71,7 @@ fun OrderSelector(
                 colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
             )
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = descString,
                 style = MaterialTheme.typography.body1,
             )
@@ -107,6 +110,7 @@ fun OrderSelector(
                 colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
             )
             Text(
+                modifier = Modifier.padding(top = 8.dp),
                 text = ascString,
                 style = MaterialTheme.typography.body1,
             )

@@ -1,5 +1,6 @@
 package com.example.ui_herolist.components
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -18,7 +19,9 @@ import com.example.hero_domain.HeroFilter
 import com.example.ui_herolist.test.TAG_HERO_FILTER_DIALOG
 import com.example.ui_herolist.test.TAG_HERO_FILTER_DIALOG_DONE
 import com.example.ui_herolist.test.TAG_HERO_FILTER_HERO_CHECKBOX
+import com.example.ui_herolist.test.TAG_HERO_FILTER_PROWINS_CHECKBOX
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HeroListFilter(
     heroFilter: HeroFilter,
@@ -48,7 +51,7 @@ fun HeroListFilter(
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        EmptyRow()
+                        //EmptyRow()
                         HeroFilterSelector(
                             filterOnHero = {
                                 onUpdateHeroFilter(HeroFilter.Hero())
@@ -69,6 +72,31 @@ fun HeroListFilter(
                                     )
                                 )
                             }
+                        )
+
+                        // Pro Win Rate Filter
+                        ProWinsFilterSelector(
+                            filterOnProWins = {
+                                onUpdateHeroFilter(
+                                    HeroFilter.ProWins()
+                                )
+                            },
+                            isEnabled = heroFilter is HeroFilter.ProWins,
+                            order = if(heroFilter is HeroFilter.ProWins) heroFilter.order else null,
+                            orderDesc = {
+                                onUpdateHeroFilter(
+                                    HeroFilter.ProWins(
+                                        order = FilterOrder.Descending
+                                    )
+                                )
+                            },
+                            orderAsc = {
+                                onUpdateHeroFilter(
+                                    HeroFilter.ProWins(
+                                        order = FilterOrder.Ascending
+                                    )
+                                )
+                            },
                         )
 
                     }
@@ -112,6 +140,7 @@ fun HeroListFilter(
  * @param orderDesc: Set the order to descending.
  * @param orderAsc: Set the order to ascending.
  */
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HeroFilterSelector(
     filterOnHero: () -> Unit,
@@ -176,4 +205,73 @@ fun HeroFilterSelector(
 
 
 
+}
+
+
+/**
+ * @param filterOnProWins: Set the HeroFilter to 'ProWins'
+ * @param isEnabled: Is the ProWins filter the selected 'HeroFilter'
+ * @param order: Ascending or Descending?
+ * @param orderDesc: Set the order to descending.
+ * @param orderAsc: Set the order to ascending.
+ */
+@ExperimentalAnimationApi
+@Composable
+fun ProWinsFilterSelector(
+    filterOnProWins: () -> Unit,
+    isEnabled: Boolean,
+    order: FilterOrder? = null,
+    orderDesc: () -> Unit,
+    orderAsc: () -> Unit,
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ){
+        Row(
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .fillMaxWidth()
+                .testTag(TAG_HERO_FILTER_PROWINS_CHECKBOX)
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null, // disable the highlight
+                    enabled = true,
+                    onClick = {
+                        filterOnProWins()
+                    },
+                )
+            ,
+        ){
+            Checkbox(
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .align(Alignment.CenterVertically)
+                ,
+                checked = isEnabled,
+                onCheckedChange = {
+                    filterOnProWins()
+                },
+                colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+            )
+            Text(
+                text = HeroFilter.ProWins().uiValue,
+                style = MaterialTheme.typography.h3,
+            )
+        }
+
+        OrderSelector(
+            descString = "100% - 0%",
+            ascString = "0% - 100%",
+            isEnabled = isEnabled,
+            isDescSelected = isEnabled && order is FilterOrder.Descending,
+            isAscSelected = isEnabled && order is FilterOrder.Ascending,
+            onUpdateHeroFilterDesc = {
+                orderDesc()
+            },
+            onUpdateHeroFilterAsc = {
+                orderAsc()
+            },
+        )
+    }
 }
