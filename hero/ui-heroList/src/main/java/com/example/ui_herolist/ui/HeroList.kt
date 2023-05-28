@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import coil.ImageLoader
+import com.example.components.DefaultScreenUI
 import com.example.core.domain.ProgressBarState
 import com.example.core.domain.UIComponentState
 import com.example.ui_herolist.components.HeroListFilter
@@ -23,40 +24,39 @@ fun HeroList(
     imageLoader: ImageLoader,
     navigateToDetailScreen:(Int)-> Unit
 ){
-
-    Box(modifier = Modifier.fillMaxSize()){
-       Column {
-           HeroListToolbar(
-               heroName = state.heroName,
-               onHeroNameChanged ={ heroName->
-                   events(HeroListEvents.UpdateHeroName(heroName))
-               } ,
-               onExecuteSearch = {
-                   events(HeroListEvents.FilterHeros)
-               },
-               onShowFilterDialog = {
-                   events(HeroListEvents.UpdateFilterDialogState(UIComponentState.Show))
-               }
-           )
-
+    DefaultScreenUI(progressBarState = state.progressBarState) {
+        Column {
+            HeroListToolbar(
+                heroName = state.heroName,
+                onHeroNameChanged ={ heroName->
+                    events(HeroListEvents.UpdateHeroName(heroName))
+                } ,
+                onExecuteSearch = {
+                    events(HeroListEvents.FilterHeros)
+                },
+                onShowFilterDialog = {
+                    events(HeroListEvents.UpdateFilterDialogState(UIComponentState.Show))
+                }
+            )
 
 
-           LazyColumn(
-               modifier = Modifier
-                   .fillMaxSize()
-           ){
-               items(state.filteredHeros){hero ->
-                   HeroListItem(
-                       hero = hero,
-                       onSelectHero ={ heroID ->
-                           navigateToDetailScreen(heroID)
-                       },
-                       imageLoader = imageLoader
-                   )
 
-               }
-           }
-       }
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ){
+                items(state.filteredHeros){hero ->
+                    HeroListItem(
+                        hero = hero,
+                        onSelectHero ={ heroID ->
+                            navigateToDetailScreen(heroID)
+                        },
+                        imageLoader = imageLoader
+                    )
+
+                }
+            }
+        }
 
         if (state.filterDialogState is UIComponentState.Show){
             HeroListFilter(
@@ -75,13 +75,5 @@ fun HeroList(
             )
         }
 
-
-        if  (state.progressBarState is ProgressBarState.Loading){
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
     }
-
-
 }
