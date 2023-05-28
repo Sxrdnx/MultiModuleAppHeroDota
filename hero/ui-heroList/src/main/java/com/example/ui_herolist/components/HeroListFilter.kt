@@ -14,18 +14,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import com.example.core.domain.FilterOrder
+import com.example.hero_domain.HeroAttribute
 import com.example.hero_domain.HeroFilter
-import com.example.ui_herolist.test.TAG_HERO_FILTER_DIALOG
-import com.example.ui_herolist.test.TAG_HERO_FILTER_DIALOG_DONE
-import com.example.ui_herolist.test.TAG_HERO_FILTER_HERO_CHECKBOX
-import com.example.ui_herolist.test.TAG_HERO_FILTER_PROWINS_CHECKBOX
+import com.example.ui_herolist.R
+import com.example.ui_herolist.test.*
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HeroListFilter(
     heroFilter: HeroFilter,
     onUpdateHeroFilter: (HeroFilter) -> Unit,
+    attributeFilter: HeroAttribute = HeroAttribute.Unknown,
+    onUpdateAttributeFilter: (HeroAttribute) -> Unit,
     onCloseDialog: () -> Unit,
 
 ){
@@ -99,6 +101,37 @@ fun HeroListFilter(
                             },
                         )
 
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Divider(
+                            color = MaterialTheme.colors.onBackground.copy(alpha = 0.5f),
+                            thickness = 1.dp
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        // Primary Attribute Filter
+                        PrimaryAttrFilterSelector(
+                            removeFilterOnPrimaryAttr = {
+                                onUpdateAttributeFilter(HeroAttribute.Unknown)
+                            },
+                            attribute = attributeFilter,
+                            onFilterStr = {
+                               onUpdateAttributeFilter(
+                                    HeroAttribute.Strength
+                                )
+                            },
+                            onFilterAgi = {
+                                onUpdateAttributeFilter(
+                                    HeroAttribute.Agility
+                                )
+                            },
+                            onFilterInt = {
+                               onUpdateAttributeFilter(
+                                    HeroAttribute.Intelligence
+                                )
+                            },
+                        )
                     }
                 }
             }
@@ -157,7 +190,6 @@ fun HeroFilterSelector(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 12.dp)
                 .testTag(TAG_HERO_FILTER_HERO_CHECKBOX)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
@@ -171,7 +203,6 @@ fun HeroFilterSelector(
         ) {
             Checkbox(
                 modifier = Modifier
-                    .padding(end = 8.dp)
                     .align(Alignment.CenterVertically),
                 checked = isEnabled,
                 onCheckedChange ={
@@ -230,7 +261,6 @@ fun ProWinsFilterSelector(
     ){
         Row(
             modifier = Modifier
-                .padding(bottom = 12.dp)
                 .fillMaxWidth()
                 .testTag(TAG_HERO_FILTER_PROWINS_CHECKBOX)
                 .clickable(
@@ -245,7 +275,6 @@ fun ProWinsFilterSelector(
         ){
             Checkbox(
                 modifier = Modifier
-                    .padding(end = 8.dp)
                     .align(Alignment.CenterVertically)
                 ,
                 checked = isEnabled,
@@ -272,6 +301,208 @@ fun ProWinsFilterSelector(
             onUpdateHeroFilterAsc = {
                 orderAsc()
             },
+        )
+    }
+}
+/**
+ * @param filterOnPrimaryAttr: Set the HeroFilter to 'PrimaryAttribute'
+ * @param isEnabled: Is the PrimaryAttribute filter the selected 'HeroFilter'
+ * @param attribute: Is the current attribute Strength, Agility or Intelligence?
+ * @param orderStr: Set the order to Strength.
+ * @param orderAgi: Set the order to Agility.
+ * @param orderInt: Set the order to Intelligence.
+ */
+@ExperimentalAnimationApi
+@Composable
+fun PrimaryAttrFilterSelector(
+    removeFilterOnPrimaryAttr: () -> Unit,
+    attribute: HeroAttribute,
+    onFilterStr: () -> Unit,
+    onFilterAgi: () -> Unit,
+    onFilterInt: () -> Unit,
+){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ){
+        Row(
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .fillMaxWidth()
+            ,
+        ){
+            Text(
+                text = stringResource(R.string.primary_attribute),
+                style = MaterialTheme.typography.h3,
+            )
+        }
+
+        PrimaryAttrSelector(
+            isStr = attribute is HeroAttribute.Strength,
+            isAgi = attribute is HeroAttribute.Agility,
+            isInt = attribute is HeroAttribute.Intelligence,
+            onUpdateHeroFilterStr = {
+                onFilterStr()
+            },
+            onUpdateHeroFilterAgi = {
+                onFilterAgi()
+            },
+            onUpdateHeroFilterInt = {
+                onFilterInt()
+            },
+            onRemoveAttributeFilter = {
+                removeFilterOnPrimaryAttr()
+            }
+        )
+    }
+}
+
+
+/**
+ * @param isStr: Is the selected attribute strength?
+ * @param isAgi: Is the selected attribute Agility?
+ * @param isInt: Is the selected attribute Intelligence?
+ * @param onUpdateHeroFilterStr: Update the filter to Strength
+ * @param onUpdateHeroFilterAgi: Update the filter to Agility
+ * @param onUpdateHeroFilterInt: Update the filter to Intelligence
+ */
+@ExperimentalAnimationApi
+@Composable
+fun PrimaryAttrSelector(
+    isStr: Boolean = false,
+    isAgi: Boolean = false,
+    isInt: Boolean = false,
+    onUpdateHeroFilterStr: () -> Unit,
+    onUpdateHeroFilterAgi: () -> Unit,
+    onUpdateHeroFilterInt: () -> Unit,
+    onRemoveAttributeFilter: () -> Unit,
+){
+    // Strength
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp)
+            .testTag(TAG_HERO_FILTER_STENGTH_CHECKBOX)
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null, // disable the highlight
+                onClick = {
+                    onUpdateHeroFilterStr()
+                },
+            )
+        ,
+    ){
+        Checkbox(
+            modifier = Modifier,
+            checked = isStr,
+            onCheckedChange = {
+                onUpdateHeroFilterStr()
+            },
+            colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+        )
+        Text(
+            modifier=Modifier.padding(top = 6.dp),
+            text = HeroAttribute.Strength.uiValue,
+            style = MaterialTheme.typography.body1,
+        )
+    }
+
+    // Agility
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, )
+            .testTag(TAG_HERO_FILTER_AGILITY_CHECKBOX)
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null, // disable the highlight
+                onClick = {
+                    onUpdateHeroFilterAgi()
+                },
+            )
+        ,
+    ){
+        Checkbox(
+            modifier = Modifier
+
+                .align(Alignment.CenterVertically)
+            ,
+            checked = isAgi,
+            onCheckedChange = {
+                onUpdateHeroFilterAgi()
+            },
+            colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+        )
+        Text(
+            modifier=Modifier.padding(top = 6.dp),
+
+            text = HeroAttribute.Agility.uiValue,
+            style = MaterialTheme.typography.body1,
+        )
+    }
+
+    // Intelligence
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, )
+            .testTag(TAG_HERO_FILTER_INT_CHECKBOX)
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null, // disable the highlight
+                onClick = {
+                    onUpdateHeroFilterInt()
+                },
+            )
+        ,
+    ){
+        Checkbox(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+            ,
+            checked = isInt,
+            onCheckedChange = {
+                onUpdateHeroFilterInt()
+            },
+            colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+        )
+        Text(
+            modifier=Modifier.padding(top = 6.dp),
+
+            text = HeroAttribute.Intelligence.uiValue,
+            style = MaterialTheme.typography.body1,
+        )
+    }
+
+    // No Filter on Attribute
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp,)
+            .testTag(TAG_HERO_FILTER_UNKNOWN_CHECKBOX)
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null, // disable the highlight
+                onClick = {
+                    onRemoveAttributeFilter()
+                },
+            )
+        ,
+    ){
+        Checkbox(
+            modifier = Modifier
+                .align(Alignment.CenterVertically),
+            checked = !isStr && !isAgi && !isInt,
+            onCheckedChange = {
+                onRemoveAttributeFilter()
+            },
+            colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
+        )
+        Text(
+
+            modifier=Modifier.padding(top = 6.dp),
+            text = stringResource(R.string.none),
+            style = MaterialTheme.typography.body1,
         )
     }
 }

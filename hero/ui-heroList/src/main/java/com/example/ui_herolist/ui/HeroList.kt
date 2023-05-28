@@ -65,6 +65,10 @@ fun HeroList(
                     events(HeroListEvents.UpdateHeroFilter(heroFilter))
 
                 },
+                attributeFilter = state.primaryAttribute,
+                onUpdateAttributeFilter = {heroAttribute ->
+                    events(HeroListEvents.UpdateHeroAttributeFilter(heroAttribute))
+                },
                 onCloseDialog = {
                     events(HeroListEvents.UpdateFilterDialogState(uiComponentState = UIComponentState.Hide))
                 }

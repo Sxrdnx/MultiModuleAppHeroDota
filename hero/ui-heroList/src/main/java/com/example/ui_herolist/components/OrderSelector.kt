@@ -47,7 +47,7 @@ fun OrderSelector(
     AnimatedVisibility(visible = isEnabled) {
         Row(modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 24.dp, bottom = 8.dp)
+            .padding(start = 24.dp)
             .testTag(TAG_HERO_FILTER_DESC)
             .clickable(
                 interactionSource = MutableInteractionSource(),
@@ -85,7 +85,7 @@ fun OrderSelector(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, bottom = 8.dp)
+                .padding(start = 24.dp)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
                     indication = null, // disable the highlight

@@ -8,6 +8,7 @@ import com.example.core.domain.DataState
 import com.example.core.Logger
 import com.example.core.domain.UIComponent
 import com.example.hero_domain.Hero
+import com.example.hero_domain.HeroAttribute
 import com.example.hero_domain.HeroFilter
 import com.example.hero_interactors.FilterHeros
 import com.example.hero_interactors.GetHeros
@@ -50,7 +51,15 @@ class HeroListViewModel
             is HeroListEvents.UpdateFilterDialogState->{
                 state.value = state.value.copy(filterDialogState = event.uiComponentState)
             }
+            is HeroListEvents.UpdateHeroAttributeFilter->{
+                updateAttributeFilter(event.attribute)
+            }
         }
+    }
+
+    private fun updateAttributeFilter(attribute: HeroAttribute) {
+        state.value = state.value.copy(primaryAttribute = attribute)
+        filterHeros()
     }
 
     private fun updateHeroFilter(heroFilter: HeroFilter) {
