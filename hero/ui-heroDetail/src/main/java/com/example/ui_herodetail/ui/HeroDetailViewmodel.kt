@@ -5,7 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.Logger
 import com.example.core.domain.DataState
+import com.example.core.domain.Queue
+import com.example.core.domain.UIComponent
 import com.example.hero_interactors.GetHeroFromCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HeroDetailViewmodel @Inject constructor(
     private val getHeroFromCache: GetHeroFromCache,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val logger: Logger,
 ): ViewModel() {
      val state: MutableState<HeroDetailState> = mutableStateOf(HeroDetailState())
 
@@ -43,11 +47,26 @@ class HeroDetailViewmodel @Inject constructor(
                 }
                 is DataState.Response -> {
 
-                    //TODO(handle error)
+                    when(dataState.uiComponent){
+                        is UIComponent.Dialog->{
+                            appendToMessageQueue(dataState.uiComponent)
+                            logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                        }
+                        is UIComponent.None->{
+                            logger.log((dataState.uiComponent as UIComponent.None).message)
+                        }
+                    }
                 }
             }
         }.launchIn(viewModelScope)
 
+    }
+
+    private fun appendToMessageQueue(uiComponent: UIComponent){
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy( errorQueue =  Queue(mutableListOf())) // force to recompose
+        state.value = state.value.copy( errorQueue = queue)
     }
 
 }

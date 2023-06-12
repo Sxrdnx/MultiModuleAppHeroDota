@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.DataState
 import com.example.core.Logger
+import com.example.core.domain.Queue
 import com.example.core.domain.UIComponent
 import com.example.hero_domain.Hero
 import com.example.hero_domain.HeroAttribute
@@ -30,7 +31,6 @@ class HeroListViewModel
     val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
     init{
         onTrigerEvent(event = HeroListEvents.GetHeros)
-
     }
 
 
@@ -89,6 +89,7 @@ class HeroListViewModel
                 is DataState.Response -> {
                     when(dataState.uiComponent){
                         is UIComponent.Dialog->{
+                            appendToMessageQueue(dataState.uiComponent)
                             logger.log((dataState.uiComponent as UIComponent.Dialog).description)
                         }
                         is UIComponent.None->{
@@ -108,7 +109,12 @@ class HeroListViewModel
         }.launchIn(viewModelScope)
     }
 
-
+    private fun appendToMessageQueue(uiComponent: UIComponent){
+        val queue = state.value.errorQueue
+        queue.add(uiComponent)
+        state.value = state.value.copy( errorQueue =  Queue(mutableListOf())) // force to recompose
+        state.value = state.value.copy( errorQueue = queue)
+    }
 
 
 }
