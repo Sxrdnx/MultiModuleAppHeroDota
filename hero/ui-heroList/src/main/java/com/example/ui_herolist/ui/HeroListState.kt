@@ -1,6 +1,8 @@
 package com.example.ui_herolist.ui
 
 import com.example.core.domain.ProgressBarState
+import com.example.core.domain.Queue
+import com.example.core.domain.UIComponent
 import com.example.core.domain.UIComponentState
 import com.example.hero_domain.Hero
 import com.example.hero_domain.HeroAttribute
@@ -14,4 +16,6 @@ data class HeroListState(
     val heroFilter: HeroFilter = HeroFilter.Hero(),
     val primaryAttribute: HeroAttribute = HeroAttribute.Unknown,
     val filterDialogState: UIComponentState = UIComponentState.Hide,
+    val errorQueue: Queue<UIComponent> = Queue(mutableListOf()),
+
     )
