@@ -28,10 +28,13 @@ class HeroDetailViewmodel @Inject constructor(
             onTriggerEvent(HeroDetailEvents.GetHeroFroCache(heroId))
         }
     }
-    private fun onTriggerEvent(events: HeroDetailEvents){
+     fun onTriggerEvent(events: HeroDetailEvents){
         when(events){
             is HeroDetailEvents.GetHeroFroCache -> {
                 getHeroFromCache(events.id)
+            }
+            is HeroDetailEvents.OnRemoveHeadFromQueue->{
+                removeHeadMessage()
             }
         }
     }
@@ -67,6 +70,16 @@ class HeroDetailViewmodel @Inject constructor(
         queue.add(uiComponent)
         state.value = state.value.copy( errorQueue =  Queue(mutableListOf())) // force to recompose
         state.value = state.value.copy( errorQueue = queue)
+    }
+    private fun removeHeadMessage() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy( errorQueue =  Queue(mutableListOf())) // force to recompose
+            state.value = state.value.copy( errorQueue = queue)
+        }catch (e: Exception){
+     //       logger.log("nothing to remove from DialogQueue")
+        }
     }
 
 }

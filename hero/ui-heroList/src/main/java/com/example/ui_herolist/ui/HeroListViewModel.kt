@@ -31,6 +31,25 @@ class HeroListViewModel
     val state: MutableState<HeroListState> = mutableStateOf(HeroListState())
     init{
         onTrigerEvent(event = HeroListEvents.GetHeros)
+        appendToMessageQueue(
+            uiComponent = UIComponent.Dialog(
+                title = "Test1",
+                description = "just testing another dialog"
+            )
+        )
+
+        appendToMessageQueue(
+            uiComponent = UIComponent.Dialog(
+                title = "Test2",
+                description = "just testing another dialog"
+            )
+        )
+        appendToMessageQueue(
+            uiComponent = UIComponent.Dialog(
+                 title = "Test3",
+                description = "just testing another dialog"
+            )
+        )
     }
 
 
@@ -53,6 +72,9 @@ class HeroListViewModel
             }
             is HeroListEvents.UpdateHeroAttributeFilter->{
                 updateAttributeFilter(event.attribute)
+            }
+            is HeroListEvents.OnRemoveHeadFromQueue -> {
+                removeHeadMessage()
             }
         }
     }
@@ -80,7 +102,7 @@ class HeroListViewModel
             state.value.primaryAttribute
         )
         state.value = state.value.copy( filteredHeros=filteredList )
-        
+
     }
 
     private fun getHeros(){
@@ -116,5 +138,14 @@ class HeroListViewModel
         state.value = state.value.copy( errorQueue = queue)
     }
 
-
+    private fun removeHeadMessage() {
+        try {
+            val queue = state.value.errorQueue
+            queue.remove()
+            state.value = state.value.copy( errorQueue =  Queue(mutableListOf())) // force to recompose
+            state.value = state.value.copy( errorQueue = queue)
+        }catch (e: Exception){
+            logger.log("nothing to remove from DialogQueue")
+        }
+    }
 }

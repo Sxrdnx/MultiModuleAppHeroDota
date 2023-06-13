@@ -24,7 +24,7 @@ fun HeroList(
     DefaultScreenUI(
         queue = state.errorQueue,
         onRemoveHeadFromQueue = {
-            TODO("remove message from queue")
+            events(HeroListEvents.OnRemoveHeadFromQueue )
         },
         progressBarState = state.progressBarState
     ) {
