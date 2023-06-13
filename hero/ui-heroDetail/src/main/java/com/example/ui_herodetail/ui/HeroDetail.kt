@@ -34,7 +34,13 @@ fun HeroDetail(
     imageLoader: ImageLoader
 ){
     state.hero?.let {hero ->
-        DefaultScreenUI(progressBarState =state.progressBarState ) {
+        DefaultScreenUI(
+            queue = state.errorQueue,
+            onRemoveHeadFromQueue = {
+                TODO("remove message from queue")
+            },
+            progressBarState =state.progressBarState
+        ) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

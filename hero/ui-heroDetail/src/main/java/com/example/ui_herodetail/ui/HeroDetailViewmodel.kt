@@ -19,7 +19,7 @@ import javax.inject.Inject
 class HeroDetailViewmodel @Inject constructor(
     private val getHeroFromCache: GetHeroFromCache,
     private val savedStateHandle: SavedStateHandle,
-    private val logger: Logger,
+   // private val logger: Logger,
 ): ViewModel() {
      val state: MutableState<HeroDetailState> = mutableStateOf(HeroDetailState())
 
@@ -50,10 +50,10 @@ class HeroDetailViewmodel @Inject constructor(
                     when(dataState.uiComponent){
                         is UIComponent.Dialog->{
                             appendToMessageQueue(dataState.uiComponent)
-                            logger.log((dataState.uiComponent as UIComponent.Dialog).description)
+                       //     logger.log((dataState.uiComponent as UIComponent.Dialog).description)
                         }
                         is UIComponent.None->{
-                            logger.log((dataState.uiComponent as UIComponent.None).message)
+                         //   logger.log((dataState.uiComponent as UIComponent.None).message)
                         }
                     }
                 }
