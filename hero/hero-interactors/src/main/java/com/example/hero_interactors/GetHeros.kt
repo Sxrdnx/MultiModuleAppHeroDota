@@ -30,7 +30,7 @@ class GetHeros(
                         description = e.message?: "Unknown Error"
                     )
                 ))
-                emptyList<Hero>()
+                emptyList()
             }
 
             //cache the network data
@@ -39,8 +39,6 @@ class GetHeros(
             val cacheHeros = cache.selectAll()
 
             emit(DataState.Data(cacheHeros))
-            throw Exception("Somthing went wrong")
-
 
         }catch (e:Exception){
             e.printStackTrace()
