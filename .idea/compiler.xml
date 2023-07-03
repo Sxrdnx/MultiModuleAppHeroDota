@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.7">
+    <bytecodeTargetLevel target="1.8">
       <module name="multimodule_app_curse.buildSrc" target="11" />
       <module name="multimodule_app_curse.buildSrc.main" target="11" />
       <module name="multimodule_app_curse.buildSrc.test" target="11" />
@@ -11,21 +11,6 @@
       <module name="MultiModuleAppHero.buildSrc.main" target="19" />
       <module name="MultiModuleAppHero.buildSrc.test" target="19" />
       <module name="MultiModuleAppHero.components" target="19" />
-      <module name="MultiModuleAppHero.constans" target="1.8" />
-      <module name="MultiModuleAppHero.constans.main" target="1.8" />
-      <module name="MultiModuleAppHero.constans.test" target="1.8" />
-      <module name="MultiModuleAppHero.core" target="1.8" />
-      <module name="MultiModuleAppHero.core.main" target="1.8" />
-      <module name="MultiModuleAppHero.core.test" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-datasource" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-datasource.main" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-datasource.test" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-domain" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-domain.main" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-domain.test" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-interactors" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-interactors.main" target="1.8" />
-      <module name="MultiModuleAppHero.hero.hero-interactors.test" target="1.8" />
       <module name="MultiModuleAppHero.hero.ui-heroDetail" target="19" />
       <module name="MultiModuleAppHero.hero.ui-heroList" target="19" />
     </bytecodeTargetLevel>
